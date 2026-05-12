@@ -4,11 +4,9 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    urdf_file = os.path.join(
-        get_package_share_directory('mobile_robot_nav'),
-        'urdf',
-        'robot.urdf.xacro'
-    )
+    pkg_share = get_package_share_directory('mobile_robot_nav')
+    urdf_file = os.path.join(pkg_share, 'urdf', 'robot.urdf.xacro')
+    rviz_config = os.path.join(pkg_share, 'rviz', 'robot.rviz')
 
     with open(urdf_file, 'r') as f:
         robot_description = f.read()
@@ -26,5 +24,6 @@ def generate_launch_description():
         Node(
             package='rviz2',
             executable='rviz2',
+            arguments=['-d', rviz_config],
         ),
     ])
